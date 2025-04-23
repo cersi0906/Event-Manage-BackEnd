@@ -1,0 +1,16 @@
+// Feedback schema design for validation
+db.createCollection("Feedback", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["session_id", "event_id", "attendee_id", "timestamp"],
+      properties: {
+        session_id: { bsonType: "string" },
+        event_id: { bsonType: "string" },
+        attendee_id: { bsonType: "string" },
+        comments: { bsonType: "string" },
+        timestamp: { bsonType: "date" }
+      }
+    }
+  }
+});
