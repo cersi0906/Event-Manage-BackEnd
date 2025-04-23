@@ -1,0 +1,22 @@
+const mongoose = require('mongoose');
+
+const TicketInventoryCacheSchema = new mongoose.Schema({
+  eventId: { type: String, required: true },
+  sessionId: { type: String, required: true },
+  ticketType: { type: String, enum: ['GA', 'VIP', 'Other'], required: true },
+  totalTickets: { type: Number, required: true },
+  ticketsSold: { type: Number, required: true, default: 0 },
+  ticketsAvailable: {
+    type: Number,
+    required: true,
+    default: function () {
+      return this.totalTickets - this.ticketsSold;
+    }
+  },
+  lastUpdated: { type: Date, default: Date.now }
+}, {
+  collection: 'TicketInventoryCache',
+  indexes: [{ unique: true, fields: ['eventId', 'sessionId', 'ticketType'] }]
+});
+
+module.exports = mongoose.model('TicketInventoryCache', TicketInventoryCacheSchema);
