@@ -1,0 +1,13 @@
+const mongoose = require('mongoose');
+
+const CachedSessionScheduleSchema = new mongoose.Schema({
+  sessionId: { type: String, required: true, unique: true }, // matches Session_ID from SQL
+  eventId: { type: String, required: true },
+  topic: { type: String, required: true },
+  time: { type: Date, required: true },
+  location: { type: String, required: true },
+  performer: { type: String, required: false }, // optional real-time update
+  lastUpdated: { type: Date, default: Date.now }
+}, { collection: 'CachedSessionSchedules' });
+
+module.exports = mongoose.model('CachedSessionSchedule', CachedSessionScheduleSchema);
